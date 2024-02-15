@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  selenium-chrome:
+    build: ./docker/selenium-chrome
+    ports:
+      - 4444:4444
+      - 5900:5900
+    volumes:
+      - ./selenium-chrome:/var/lib/share
+
+  node:
+    container_name: node
+    build:
+      context: .
+      dockerfile: docker/node-app/Dockerfile
+    volumes:
+      - ./node-app:/usr/src/app
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    working_dir: /usr/src/app
